@@ -686,9 +686,11 @@ class PBParser
      */
     private function _strip_comments(&$string)
     {
-        $string = preg_replace('/\/\/.+/', '', $string);
+        $string = preg_replace('/\/\/.*/', '', $string);
         // now replace empty lines and whitespaces in front
         $string = preg_replace('/\\r?\\n\s*/', "\n", $string);
+        // remove option commands
+        $string = preg_replace('/^option\s+.*/m', '', $string);
     }
 }
 ?>
