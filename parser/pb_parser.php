@@ -50,11 +50,11 @@ class PBParser
      * pb_proto_[NAME]
      * @param String $protofile - the protofilename with the path
      */
-    public function parse($protofile, $outputfile = null)
+    public function parse($protofile, $outputfile = null, $use5_3 = false)
     { 	    
         $string = file_get_contents($protofile);
 
-        $this->isPHP5_3 = version_compare(PHP_VERSION, '5.3', '>'); 
+        $this->isPHP5_3 = $use5_3 && version_compare(PHP_VERSION, '5.3', '>'); 
         
         // now take the filename
         //$filename = str_replace("\\", "/", $filename);
@@ -477,7 +477,7 @@ class PBParser
         }
 
         // parse the value
-        $match = preg_match('/=\s(.*);/', $content, $matches, PREG_OFFSET_CAPTURE);
+        $match = preg_match('/=\s*(\w+)/', $content, $matches, PREG_OFFSET_CAPTURE);
         if ($match)
         {
             $myarray['value'] = trim($matches[1][0]);
